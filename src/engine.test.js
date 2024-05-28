@@ -12,14 +12,16 @@ test('Create a round', () => {
   expect(round.path).toContain(0)
   expect(round.path).toContain(1)
   expect(round.timestamp).toBeLessThanOrEqual(Date.now())
-  expect(round.outcome).toBeGreaterThan(-5)
-  expect(round.outcome).toBeLessThan(5)
+  expect(round.bucket).toBeGreaterThan(-5)
+  expect(round.bucket).toBeLessThan(5)
+
+  console.log(round)
 
 })
 
 
 // Monte Carlo Simulation of Paths
-test('Path outcome probabilities', () => {
+test('Path bucket probabilities', () => {
 
   // helper
   const percent = (tally) => (tally / trials * 100).toFixed(2)
@@ -31,7 +33,7 @@ test('Path outcome probabilities', () => {
 
   for (let i = 0; i < trials; i++) {
     const round = engine.run();
-    let bucket = round.outcome
+    let bucket = round.bucket
     tallies[bucket] = tallies[bucket] == null ? 0 : tallies[bucket] + 1
   }
 
@@ -43,7 +45,7 @@ test('Path outcome probabilities', () => {
   expect(percent(tallies[-3])).toBeCloseTo(3.1, 1)
   expect(percent(tallies[-2])).toBeCloseTo(10.94, 1)
   expect(percent(tallies[-1])).toBeCloseTo(21.9, 1)
-  expect(percent(tallies[0])).toBeCloseTo(27.4, 1)
+  expect(percent(tallies[0])).toBeCloseTo(27.35, 1)
   expect(percent(tallies[1])).toBeCloseTo(21.9, 1)
   expect(percent(tallies[2])).toBeCloseTo(10.9, 1)
   expect(percent(tallies[3])).toBeCloseTo(3.1, 1)
